@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="Department" class="TestCollection.Department">
+		<property name="name" value="財務部"/>
+<!-- 給Array注入 -->		
+		<property name="empname" >
+			<list>
+				<value>小明</value>
+				<value>中明</value>
+				<value>大明</value>
+			</list>
+		</property>
+<!-- 給List注入 -->			
+		<property name="emplist">
+			<list>
+				<ref bean="emp1"></ref>
+				<ref bean="emp2"></ref>
+			</list>
+		</property>
+<!-- 給Set注入 -->		
+		<property name="empset">
+			<list>
+				<ref bean="emp1"></ref>
+				<ref bean="emp2"></ref>
+			</list>
+		</property>
+<!-- 給Map注入 -->	
+		<property name="empMap">
+			<map>
+				<entry key="1" value-ref="emp1"/>
+				<entry key="2" value-ref="emp2"/>
+			</map>
+		</property>
+<!-- 給屬性集合注入 -->	
+		<property name="pp">
+			<props>
+				<prop key="pp1">abcd</prop>
+				<prop key="pp2">hello</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="emp1" class="TestCollection.Employee">
+		<property name="name" value="張三"/>
+		<property name="id" value="001"/>
+	</bean>
+	<bean id="emp2" class="TestCollection.Employee">
+		<property name="name" value="李四"/>
+		<property name="id" value="002"/>
+	</bean>
+	
+</beans>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<!-- 配置被代理對象 -->
+	<bean id="Test1Service" class="aop.Test1Service">
+	<property name="name" value="小明"/>
+	</bean>
+<!-- 配置前置通知 -->
+	<bean id="MyMethodBeforeAdvice" class="aop.MyMethodBeforeAdvice">
+	</bean>
+<!-- 配置後置通知 -->	
+	<bean id="MyafterReturningAdvice" class="aop.MyafterReturningAdvice">
+	</bean>
+<!-- 配置環繞通知 -->
+	<bean id="MyMethodInterceptor" class="aop.MyMethodInterceptor">
+	</bean>		
+<!-- 配置異常通知 -->
+	<bean id="MyThrowsAdvice" class="aop.MyThrowsAdvice">
+	</bean>	
+<!-- 定義前置通知切入點 -->
+	<bean id="MyMethodBeforeAdviceFilter" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+	<property name="advice" ref="MyMethodBeforeAdvice"/>
+	<property name="mappedNames">
+		<list>
+			<value>sayhello</value>
+		</list>
+	</property>
+	</bean>		
+<!-- 配置代理對象 -->	
+	<bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+<!-- 代理接口 -->
+	<property name="proxyInterfaces">	
+		<list>
+			<value>aop.TestServiceInter</value>
+			<value>aop.TestServiceInter2</value>
+		</list>
+	</property>
+<!-- 把通知織入到代理對象 -->
+	<property name="interceptorNames">
+		<list>
+		<!-- 把前置通知MyMethodBeforeAdvice和代理對象相關聯，攔截器 -->
+		<!-- <value>MyMethodBeforeAdvice</value>  -->
+		<!-- 使用自定義切入點來控制前置通知 -->
+			<value>MyMethodBeforeAdviceFilter</value>	
+		<!-- 織入後置通知 -->			
+			<value>MyafterReturningAdvice</value>
+		<!-- 織入環繞通知 -->		
+			<value>MyMethodInterceptor</value>
+		<!-- 織入異常通知 -->		
+			<value>MyThrowsAdvice</value>
+		</list>	
+	</property>
+<!-- 配置被代理對象 -->
+	<property name="target" ref="Test1Service">
+	</property>
+	</bean>
+	
+</beans>
